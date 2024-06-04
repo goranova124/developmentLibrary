@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.34493193.css",
+    "main.js": "/static/js/main.a6acf4c3.js",
+    "static/js/453.9537af23.chunk.js": "/static/js/453.9537af23.chunk.js",
+    "static/media/lg-PACCAR-Connect-WHITE.png": "/static/media/lg-PACCAR-Connect-WHITE.02abe344d52a621b8d89.png",
+    "static/media/parameters.png": "/static/media/parameters.28c10de92f9a94b63245.png",
+    "index.html": "/index.html",
+    "main.34493193.css.map": "/static/css/main.34493193.css.map",
+    "main.a6acf4c3.js.map": "/static/js/main.a6acf4c3.js.map",
+    "453.9537af23.chunk.js.map": "/static/js/453.9537af23.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.34493193.css",
+    "static/js/main.a6acf4c3.js"
+  ]
+}
