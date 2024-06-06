@@ -9,7 +9,7 @@ function App() {
 
       <Router>
         <Routes>
-          <Route index element={<Home />} />
+          <Route path="/developmentLibrary"  element={<Home />} />
           <Route path="apis/:api" element={<Vehicle />} />
 
           <Route path="documentation" element={<Documentation />} />

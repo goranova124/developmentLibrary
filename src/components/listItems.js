@@ -155,7 +155,7 @@ const App = (apisList) => {
                     <Divider />
 
                     <List component="nav" >
-                        <ListItemButton component={Link} to="/">
+                        <ListItemButton component={Link} to="/developmentLibrary">
                             <ListItemIcon>
                                 <DashboardIcon />
                             </ListItemIcon>

@@ -1,17 +1,15 @@
 const request = async (url, options = {}) => {
-  try {
+    try {
       const response = await fetch(url, options);
       if (!response.ok) {
-          throw new Error(response.status);
+        throw new Error(response.status);
       }
-      console.log(response);
-      return response;
-  } catch (error) {
+      const json = await response.json();
+      return json;
+    } catch (error) {
       console.error('Error occurred while making request:', error);
       throw error;
-  }
-};
-export default request;
-
-
-
+    }
+  };
+  
+  export default request;
