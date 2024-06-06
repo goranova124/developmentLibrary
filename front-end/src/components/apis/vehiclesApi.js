@@ -1,134 +1,142 @@
-import axios from "axios";
-import request from "./utils/request";
+import axiosInstance from "../apis/utils/axiosInstance";
 
-const baseURL = 'http://localhost:8080/vehicles';
-export default axios.create({
-    baseURL
-})
+const baseURL = 'vehicles';
 
 export const VehicleAPI = {
-
-
-    getAll: function (token, accept, contentType) {
-
-        const options = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': `${accept}`,
-                'ContentType': `${contentType}`,
-
-            },
-
-        }
-
-        return request(baseURL, options);
-    },
-    getVehiclePositionBylatestOnly(token, accept, vin, triggerFilter, dateType) {
-
-        const url = 'http://localhost:8080/vehicles/positions/latestOnly';
-        console.log(accept);
-        const options = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                accept: accept,
-                vin: `${vin}`,
-                triggerFilter: `${triggerFilter}`,
-                dateType: `${dateType}`
-            },
-
-        };
-        return request(url, options);
-
-    },
-    getVehiclePositionByStartTime(token, accept, vin, triggerFilter, dateType, starttime, stoptime) {
-        console.log("de");
-        const url = 'http://localhost:8080/vehicles/positions/starttime';
-        const options = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                accept: accept,
-                vin: `${vin}`,
-                triggerFilter: `${triggerFilter}`,
-                dateType: `${dateType}`,
-                starttime: `${starttime}`,
-                stoptime: `${stoptime}`,
-                // lastVin: `${lastVin}`,
-            },
-
-        };
-        return request(url, options);
-
+  getAll: async function (token, accept, contentType) {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': `${accept}`,
+          'Content-Type': `${contentType}`,
+        },
+      };
+      const response = await axiosInstance.get(baseURL, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
     }
-    ,
-    getMoreData(moreData, token, accept) {
-        const url = 'http://localhost:8080/vehicles/moreData';
-        const options = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                accept: accept,
-                url: `${moreData}`,
-            },
-
-        };
-        return request(url, options);
+  },
+  getVehiclePositionByLatestOnly: async function (token, accept, vin, triggerFilter, dateType) {
+    try {
+      const url = 'vehicles/positions/latestOnly';
+      const options = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': accept,
+          'vin': vin,
+          'triggerFilter': triggerFilter,
+          'dateType': dateType,
+        },
+      };
+      const response = await axiosInstance.get(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
     }
-    ,
-    login(email, password) {
-        console.log(email);
-        const url = 'http://localhost:8080/vehicles/login';
-        const options = {
-            method: 'POST'
-            , headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    email: email,
-                    password: password,
-                })
-
-        };
-
-        return request(url, options);
-    },
-    getVehiclesStatusesBylatestOnly(token, accept, vin, triggerFilter, dateType, contentFilter) {
-
-        const url = 'http://localhost:8080/vehicles/statuses/latestOnly';
-        console.log(accept);
-        const options = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                accept: accept,
-                vin: `${vin}`,
-                triggerFilter: `${triggerFilter}`,
-                dateType: `${dateType}`,
-                contentFilter: `${contentFilter}`,
-            },
-
-        };
-        return request(url, options);
-
-    }, getVehiclesStatusesByStartime(token, accept, vin, triggerFilter, dateType, contentFilter, starttime, stoptime) {
-        console.log("dw");
-        const url = 'http://localhost:8080/vehicles/statuses/starttime';
-        const options = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                accept: accept,
-                vin: `${vin}`,
-                triggerFilter: `${triggerFilter}`,
-                dateType: `${dateType}`,
-                contentFilter: `${contentFilter}`, starttime: `${starttime}`,
-                stoptime: `${stoptime}`,
-            },
-
-        };
-        return request(url, options);
-
-    },
-
-
-
-}
+  },
+  getVehiclePositionByStartTime: async function (token, accept, vin, triggerFilter, dateType, starttime, stoptime) {
+    try {
+      const url = 'vehicles/positions/starttime';
+      const options = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': accept,
+          'vin': vin,
+          'triggerFilter': triggerFilter,
+          'dateType': dateType,
+          'starttime': starttime,
+          'stoptime': stoptime,
+        },
+      };
+      const response = await axiosInstance.get(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
+  getMoreData: async function (moreData, token, accept) {
+    try {
+      const url = 'vehicles/moreData';
+      const options = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': accept,
+          'url': moreData,
+        },
+      };
+      const response = await axiosInstance.get(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
+  login: async function (email, password) {
+    try {
+      const url = 'vehicles/login';
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          email: email,
+          password: password,
+        },
+      };
+      const response = await axiosInstance.post(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
+  getVehiclesStatusesByLatestOnly: async function (token, accept, vin, triggerFilter, dateType, contentFilter) {
+    try {
+      const url = 'vehicles/statuses/latestOnly';
+      const options = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': accept,
+          'vin': vin,
+          'triggerFilter': triggerFilter,
+          'dateType': dateType,
+          'contentFilter': contentFilter,
+        },
+      };
+      const response = await axiosInstance.get(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
+  getVehiclesStatusesByStartime: async function (token, accept, vin, triggerFilter, dateType, contentFilter, starttime, stoptime) {
+    try {
+      const url = 'vehicles/statuses/starttime';
+      const options = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': accept,
+          'vin': vin,
+          'triggerFilter': triggerFilter,
+          'dateType': dateType,
+          'contentFilter': contentFilter,
+          'starttime': starttime,
+          'stoptime': stoptime,
+        },
+      };
+      const response = await axiosInstance.get(url, options);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
+};

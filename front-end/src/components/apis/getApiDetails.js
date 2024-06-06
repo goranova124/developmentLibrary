@@ -1,24 +1,15 @@
-import axios from "axios";
-import request from "./utils/request";
 
-const baseURL = 'http://localhost:8080/apis';
-export default axios.create({
-    baseURL
-})
+import axiosInstance from "../apis/utils/axiosInstance";
 
-export const ApisDetails =  {
-    getAll: function () {
-
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-
-        }
-
-        return request(baseURL, options);
-    },
+export const ApisDetails = {
+  getAll: async function () {
+    try {
+        const url="apis"
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error occurred while fetching the data:', error);
+      throw error;
+    }
+  },
 };
-
-

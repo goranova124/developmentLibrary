@@ -23,26 +23,22 @@ const Home = (props) => {
         const fetchApis = async () => {
             try {
                 const fetchedApis = await ApisDetails.getAll();
-                const json = await fetchedApis.json();
-                setApis(json.apiEntity);
-
-                sessionStorage.setItem("apis", JSON.stringify(json.apiEntity));
+                setApis(fetchedApis.apiEntity);
+                sessionStorage.setItem("apis", JSON.stringify(fetchedApis.apiEntity));
             } catch (error) {
-                console.error('Error fetching apis list:', error);
+                console.error('Error fetching API list:', error);
             } finally {
                 setLoading(false);
             }
         };
+
         if (sessionStorage.getItem("apis")) {
-            setLoading(false)
-            setApis(JSON.parse(sessionStorage.getItem("apis")))
-        }
-        else {
+            setLoading(false);
+            setApis(JSON.parse(sessionStorage.getItem("apis")));
+        } else {
             fetchApis();
         }
-
     }, []);
-
     return (
         <div style={{ display: 'flex', flexDirection: "row" }}>
             <App apisList={apis} />
@@ -100,12 +96,12 @@ const Home = (props) => {
                                     programming languages. </p>
                             </Paper>
                         </Grid>
-                       
+
                         <Grid item xs={12}>
-                                <div>
-                                    <Information />
-                                </div>
-                            </Grid>
+                            <div>
+                                <Information />
+                            </div>
+                        </Grid>
                         <Grid item xs={12}>
                             <Paper style={{ alignContent: "center", alignItems: "center", justifyContent: "center", }}>
                                 {loading ? (
@@ -143,7 +139,7 @@ const Home = (props) => {
                                                         }
                                                         }>
                                                             try it out
-                                                        </Button><CardActions><Button size="small" onClick={()=>{navigate(`documentation`)}}>Learn More</Button></CardActions>
+                                                        </Button><CardActions><Button size="small" onClick={() => { navigate(`documentation`) }}>Learn More</Button></CardActions>
                                                     </div>
                                                 </CardContent></Card></div>
                                         ))}
@@ -151,7 +147,7 @@ const Home = (props) => {
                                 </>)}
                             </Paper>
                         </Grid>
-                        
+
                     </Grid>
                 </Container>
             </Box>
