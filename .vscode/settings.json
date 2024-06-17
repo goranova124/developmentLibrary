@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/7d1861a3-6ec5-47f2-bfef-bce87576255f/resourceGroups/fedevelopmentlibrary/providers/Microsoft.Web/sites/developerLibrary",
+    "appService.deploySubpath": "build"
+}

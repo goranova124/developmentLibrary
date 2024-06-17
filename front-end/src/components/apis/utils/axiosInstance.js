@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = 'http://3.71.115.121/';
+const baseURL = 'https://primary:XXDWQ7wEBHKIfOCQLRPiCwLTiva4JIvYYX83wgAHb3oSy21e1mlAjeteFqhN593H@dpli.test.azuremicroservices.io/test/default/';
 const axiosInstance = axios.create({
   baseURL
 });
