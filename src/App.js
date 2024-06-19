@@ -9,7 +9,7 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/developmentLibrary"  element={<Home />} />
+          <Route path="/"  element={<Home />} />
           <Route path="apis/:api" element={<Vehicle />} />
 
           <Route path="documentation" element={<Documentation />} />
