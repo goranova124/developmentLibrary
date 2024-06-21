@@ -10,11 +10,12 @@ export const VehicleAPI = {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': `${accept}`,
-          'Content-Type': `${contentType}`,
+          contentType: `${contentType}`,
         },
       };
       const response = await axiosInstance.get(baseURL, options);
-      return response.data;
+      console.log(response);
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
@@ -33,7 +34,7 @@ export const VehicleAPI = {
         },
       };
       const response = await axiosInstance.get(url, options);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
@@ -54,7 +55,7 @@ export const VehicleAPI = {
         },
       };
       const response = await axiosInstance.get(url, options);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
@@ -71,7 +72,7 @@ export const VehicleAPI = {
         },
       };
       const response = await axiosInstance.get(url, options);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
@@ -79,6 +80,9 @@ export const VehicleAPI = {
   },
   login: async function (email, password) {
     try {
+      console.log(email);
+      console.log("password");
+      console.log(password);
       const url = 'vehicles/login';
       const options = {
         method: 'POST',
@@ -90,7 +94,10 @@ export const VehicleAPI = {
           password: password,
         },
       };
-      const response = await axiosInstance.post(url, options);
+      const response = await axiosInstance.post(url, {
+        email: email,
+        password: password,
+      });
       return response.data;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
@@ -111,7 +118,7 @@ export const VehicleAPI = {
         },
       };
       const response = await axiosInstance.get(url, options);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
@@ -133,7 +140,7 @@ export const VehicleAPI = {
         },
       };
       const response = await axiosInstance.get(url, options);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error occurred while fetching the data:', error);
       throw error;
