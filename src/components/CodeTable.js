@@ -40,20 +40,26 @@ function CodeTable(api) {
     const [openMoreDataAvailable, setOpenMoreDataAvailable] = React.useState(false);
     const [nameError, setNameError] = useState(false);
     const [parametersList, setParametersList] = React.useState([]);
-    const [cookies, setCookie] = useCookies(['apis', 'email']);
+    const [cookies, setCookie, removeCookie] = useCookies(['apis', 'email']);
     const [loading, setLoading] = useState(true)
     // const [cookies] = useCookies(['email']);
 
     const cookieProvide = CookieProvider();
     useEffect(() => {
         setVehicles()
+        setLoading(false)
         setValueAPI("4");
+        setOpenMoreDataAvailable(false)
+
         setErrorCode()
     }, [api]);
 
     useEffect(() => {
         setParametersList(api.api.requestParametersList)
+        setAuthorization(null)
+
         const token = (cookies.token);
+        console.log(cookies);
         if (token) {
             setAuthorization(token)
         }
@@ -120,7 +126,7 @@ function CodeTable(api) {
     const callApi = async (event) => {
         event.preventDefault();
         let data;
-        
+
         const email1 = `${originalList.find(param => param.parameterName === 'Email')?.parameterExample || ''}`;
         const password1 = `${originalList.find(param => param.parameterName === 'Password')?.parameterExample || ''}`;
         const accept = `${originalList.find(param => param.parameterName === 'Accept')?.parameterExample || ''}`;
@@ -131,69 +137,70 @@ function CodeTable(api) {
         const vin = `${originalList.find(param => param.parameterName === 'vin')?.parameterExample || ''}`;
         const starttime = `${originalList.find(param => param.parameterName === 'starttime')?.parameterExample || ''}`;
         const stoptime = `${originalList.find(param => param.parameterName === 'stoptime')?.parameterExample || ''}`;
-      
+
         if (api.api.apiFunction === "AUTHORIZATION") {
-          try {
-            Cookies.remove('token');
-            Cookies.remove('email');
-            setVehicles(null);
-            setErrorCode(null);
-            setOpenMoreDataAvailable(false)
+            try {
+                removeCookie('token');
+                removeCookie('email');
+                console.log(cookies);
+                setVehicles(null);
+                setErrorCode(null);
+                setOpenMoreDataAvailable(false)
 
-            data = await VehicleAPI.login(email1, password1);
-            // const json = await data.json();
-            setCookie("token", data.access_token, { expires: new Date(Date.now() + 30 * 60 * 1000) });
-            setCookie("email", (jwtDecode(data.access_token)).email, { expires: new Date(Date.now() + 30 * 60 * 1000) });
-            setVehicles(data);
-            setValueAPI("5");
-            setErrorCode(data.status);
-          } catch (error) {
-            setVehicles(null);
-            setValueAPI("5");
-            setErrorCode(error.message);
-            console.log(error);
-          }
+                data = await VehicleAPI.login(email1, password1);
+                // const json = await data.json();
+                setCookie("token", data.access_token, { expires: new Date(Date.now() + 30 * 60 * 1000) });
+                setCookie("email", (jwtDecode(data.access_token)).email, { expires: new Date(Date.now() + 30 * 60 * 1000) });
+                setVehicles(data);
+                setValueAPI("5");
+                setErrorCode(data.status);
+            } catch (error) {
+                setVehicles(null);
+                setValueAPI("5");
+                setErrorCode(error.message);
+                console.log(error);
+            }
         } else {
-          try {
-            setVehicles(null);
-            setErrorCode(null);
+            try {
+                setVehicles(null);
+                setErrorCode(null);
 
-            setOpenMoreDataAvailable(false)
+                setOpenMoreDataAvailable(false)
 
-            if (api.api.apiFunction === "GET_VEHICLES") {
-              data = await VehicleAPI.getAll(authorization, accept, contentType);
-            } else if (api.api.apiFunction === "GET_VEHICLES_POSITIONS with latestOnly") {
-              data = await VehicleAPI.getVehiclePositionByLatestOnly(authorization, accept, vin, triggerFilter, dateType);
-            } else if (api.api.apiFunction === "GET_VEHICLES_POSITIONS with starttime") {
-              data = await VehicleAPI.getVehiclePositionByStartTime(authorization, accept, vin, triggerFilter, dateType, starttime, stoptime);
-            } else if (api.api.apiFunction === "GET_VEHICLES_STATUSES with latestOnly") {
-              data = await VehicleAPI.getVehiclesStatusesByLatestOnly(authorization, accept, vin, triggerFilter, dateType, contentFilter);
-            } else if (api.api.apiFunction === "GET_VEHICLES_STATUSES with starttime") {
-              data = await VehicleAPI.getVehiclesStatusesByStartime(authorization, accept, vin, triggerFilter, dateType, contentFilter, starttime, stoptime);
-            } else {
-              throw new Error("Invalid unique function value");
+                if (api.api.apiFunction === "GET_VEHICLES") {
+                    data = await VehicleAPI.getAll(authorization, accept, contentType);
+                } else if (api.api.apiFunction === "GET_VEHICLES_POSITIONS with latestOnly") {
+                    data = await VehicleAPI.getVehiclePositionByLatestOnly(authorization, accept, vin, triggerFilter, dateType);
+                } else if (api.api.apiFunction === "GET_VEHICLES_POSITIONS with starttime") {
+                    data = await VehicleAPI.getVehiclePositionByStartTime(authorization, accept, vin, triggerFilter, dateType, starttime, stoptime);
+                } else if (api.api.apiFunction === "GET_VEHICLES_STATUSES with latestOnly") {
+                    data = await VehicleAPI.getVehiclesStatusesByLatestOnly(authorization, accept, vin, triggerFilter, dateType, contentFilter);
+                } else if (api.api.apiFunction === "GET_VEHICLES_STATUSES with starttime") {
+                    data = await VehicleAPI.getVehiclesStatusesByStartime(authorization, accept, vin, triggerFilter, dateType, contentFilter, starttime, stoptime);
+                } else {
+                    throw new Error("Invalid unique function value");
+                }
+
+                // const json = await data.json();
+                if (data.data.moreDataAvailable) {
+                    setOpenMoreDataAvailableLink(data.data.moreDataAvailableLink)
+                    setOpenMoreDataAvailable(true)
+                }
+                setVehicles(data.data);
+                setValueAPI("5");
+                setErrorCode(data.status);
+                setNameError(false);
+            } catch (error) {
+                setVehicles(null);
+                setValueAPI("5");
+                setErrorCode(error.message);
+                console.log(error);
             }
-            
-            // const json = await data.json();
-            if (data.data.moreDataAvailable) {
-              setOpenMoreDataAvailableLink(data.data.moreDataAvailableLink)
-              setOpenMoreDataAvailable(true)
-            }
-            setVehicles(data.data);
-            setValueAPI("5");
-            setErrorCode(data.status);
-            setNameError(false);
-          } catch (error) {
-            setVehicles(null);
-            setValueAPI("5");
-            setErrorCode(error.message);
-            console.log(error);
-          }
         }
-        
+
         setLoading(false);
-      };
-      
+    };
+
 
     const accordionClicked = (index) => {
         if (openDrawer.includes(index))

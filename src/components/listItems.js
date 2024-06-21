@@ -83,12 +83,15 @@ const App = (apisList) => {
     const [email, setEmail] = React.useState('');
     const [cookies] = useCookies(['email']);
     useEffect(() => {
+        setEmail(null)
         if (cookies.email) {
             setEmail(cookies.email)
         }
         if (sessionStorage.getItem("apis")) {
             setApis(JSON.parse(sessionStorage.getItem("apis")))
         }
+
+        console.log(cookies);
     }, [apisList,cookies])
     const [open, setOpen] = React.useState(true);
     const [openSubItems, setOpenSubItems] = React.useState(false);
