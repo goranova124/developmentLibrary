@@ -84,16 +84,6 @@ export const VehicleAPI = {
       console.log("password");
       console.log(password);
       const url = 'vehicles/login';
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          email: email,
-          password: password,
-        },
-      };
       const response = await axiosInstance.post(url, {
         email: email,
         password: password,
@@ -109,7 +99,7 @@ export const VehicleAPI = {
       const url = 'vehicles/statuses/latestOnly';
       const options = {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Accept': accept,
           'vin': vin,
           'triggerFilter': triggerFilter,
@@ -129,7 +119,7 @@ export const VehicleAPI = {
       const url = 'vehicles/statuses/starttime';
       const options = {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Accept': accept,
           'vin': vin,
           'triggerFilter': triggerFilter,
