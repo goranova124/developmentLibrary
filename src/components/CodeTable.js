@@ -13,6 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Accordion, AccordionDetails, AccordionSummary, Typography, } from "@mui/material";
 import Button from '@mui/material/Button';
 import "rsuite/dist/rsuite.css";
+import CloseIcon from '@mui/icons-material/Close';
+
 import DropdownMenu from './DropdownMenu';
 import { VehicleAPI } from "./apis/vehiclesApi";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -132,6 +134,12 @@ function CodeTable(api) {
       
         if (api.api.apiFunction === "AUTHORIZATION") {
           try {
+            Cookies.remove('token');
+            Cookies.remove('email');
+            setVehicles(null);
+            setErrorCode(null);
+            setOpenMoreDataAvailable(false)
+
             data = await VehicleAPI.login(email1, password1);
             // const json = await data.json();
             setCookie("token", data.access_token, { expires: new Date(Date.now() + 30 * 60 * 1000) });
@@ -147,6 +155,11 @@ function CodeTable(api) {
           }
         } else {
           try {
+            setVehicles(null);
+            setErrorCode(null);
+
+            setOpenMoreDataAvailable(false)
+
             if (api.api.apiFunction === "GET_VEHICLES") {
               data = await VehicleAPI.getAll(authorization, accept, contentType);
             } else if (api.api.apiFunction === "GET_VEHICLES_POSITIONS with latestOnly") {
@@ -264,7 +277,6 @@ function CodeTable(api) {
                         />
                         <Snackbar
                             open={openMoreDataAvailable}
-                            autoHideDuration={5000}
                             onClose={handleCloseMoredataAvailable}
                             message="More data is available"
                             action={
@@ -272,6 +284,7 @@ function CodeTable(api) {
                                     <Button color="secondary" size="small" onClick={getMoreDataAvailable}>
                                         Get more data
                                     </Button>
+                                    <CloseIcon fontSize="small" />
 
                                 </React.Fragment>
                             }
