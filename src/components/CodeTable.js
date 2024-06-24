@@ -138,11 +138,13 @@ function CodeTable(api) {
         const starttime = `${originalList.find(param => param.parameterName === 'starttime')?.parameterExample || ''}`;
         const stoptime = `${originalList.find(param => param.parameterName === 'stoptime')?.parameterExample || ''}`;
 
+        setLoading(true);
         if (api.api.apiFunction === "AUTHORIZATION") {
-            try {
+        try {
                 removeCookie('token');
                 removeCookie('email');
                 console.log(cookies);
+                setValueAPI("5");
                 setVehicles(null);
                 setErrorCode(null);
                 setOpenMoreDataAvailable(false)
@@ -152,7 +154,6 @@ function CodeTable(api) {
                 setCookie("token", data.access_token, { expires: new Date(Date.now() + 30 * 60 * 1000) });
                 setCookie("email", (jwtDecode(data.access_token)).email, { expires: new Date(Date.now() + 30 * 60 * 1000) });
                 setVehicles(data);
-                setValueAPI("5");
                 setErrorCode(data.status);
             } catch (error) {
                 setVehicles(null);
