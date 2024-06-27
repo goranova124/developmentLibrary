@@ -93,8 +93,8 @@ function CodeTable(api) {
             let data = await VehicleAPI.getMoreData(moreDataAvailableLink, authorization, accept);
             // const json = await data.json();
             setVehicles(data);
-            if (data.data.moreDataAvailable) {
-                setOpenMoreDataAvailableLink(data.data.moreDataAvailableLink)
+            if (data.moreDataAvailable) {
+                setOpenMoreDataAvailableLink(data.moreDataAvailableLink)
                 setOpenMoreDataAvailable(true)
             }
             else {
